@@ -8,6 +8,7 @@
 		} @if (cepService.readError()) {
 		<p class="text-red-400 italic">
 			Erro: {{ cepService.readError()!.errors[0].message }}
+
 		</p>
 		} @if(location()) {
 		<p>Estado: {{ location()?.state }}</p>

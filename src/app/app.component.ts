@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CepService } from './services/cep/cep.service';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpErrorResponse } from '@angular/common/http';
+import { LocationError } from './services/cep/cep.model';
 
 @Component({
 	selector: 'app-root',
@@ -41,6 +43,27 @@ export class AppComponent {
 	);
 
 	onCepChange() {
-		this.cepService.fetchLocation(this.cep).subscribe();
+		const check = this.checkValue();
+		if (check) {
+			this.cepService.fetchLocation(this.cep).subscribe();
+		}
+	}
+
+	checkValue() {
+		const regex = /^\d{5}-?\d{3}$/;
+		const parsedError: LocationError = {
+			name: 'CEP inválido',
+			message: '',
+			type: '',
+			errors: [
+				{
+					name: '',
+					message: 'CEP inválido, por favor escreva novamente.',
+					service: '',
+				},
+			],
+		};
+		this.cepService.handleError(parsedError);
+		return this.cep.match(regex);
 	}
 }
