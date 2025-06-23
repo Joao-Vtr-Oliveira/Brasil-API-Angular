@@ -50,7 +50,7 @@ describe('CepService', () => {
 				expect(service.readError()).toBe(null);
 				done();
 			},
-			error: done, // Se der erro, falha o teste
+			error: done,
 		});
 
 		const req = httpMock.expectOne(

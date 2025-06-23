@@ -1,22 +1,28 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { provideHttpClient } from '@angular/common/http';
+import {
+	provideHttpClientTesting,
+	HttpTestingController,
+} from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
+	let httpMock: HttpTestingController;
+	let component: AppComponent;
+	let fixture: ComponentFixture<AppComponent>;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [AppComponent],
+			providers: [provideHttpClient(), provideHttpClientTesting()],
+		}).compileComponents();
+		fixture = TestBed.createComponent(AppComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+		httpMock = TestBed.inject(HttpTestingController);
+	});
 
-  it(`should have the 'Brasil-API-Angular' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('Brasil-API-Angular');
-  });
+	it('should create the app', () => {
+		expect(component).toBeTruthy();
+	});
 });

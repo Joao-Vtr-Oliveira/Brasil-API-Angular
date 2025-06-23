@@ -5,7 +5,7 @@ import { inject, Injectable } from '@angular/core';
 	providedIn: 'root',
 })
 export class BrasilService {
-	private httpClient = inject(HttpClient);
+	// private httpClient = inject(HttpClient);
 
 
 }
