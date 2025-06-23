@@ -5,4 +5,23 @@ export interface LocationCep {
 	neighborhood: string;
 	street: string;
 	service: string;
+	location: {
+		coordinates: {
+			longitude: string;
+			latitude: string;
+		};
+	};
+}
+
+interface serviceError {
+	name: string;
+	message: string;
+	service: 'correios' | 'viacep';
+}
+
+export interface LocationError {
+	name: string;
+	message: string;
+	type: string;
+	errors: serviceError[];
 }
