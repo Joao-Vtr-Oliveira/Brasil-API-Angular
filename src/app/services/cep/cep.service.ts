@@ -14,8 +14,6 @@ export class CepService {
 	readLocation = this.location.asReadonly();
 	readError = this.error.asReadonly();
 
-	
-
 	fetchLocation(cep: string) {
 		return this.httpClient
 			.get<LocationCep>(`https://brasilapi.com.br/api/cep/v2/${cep}`, {})
@@ -33,6 +31,7 @@ export class CepService {
 					};
 
 					this.error.set(parsedError)
+					this.location.set(undefined);
 
 					return throwError(() => parsedError);
 				})
