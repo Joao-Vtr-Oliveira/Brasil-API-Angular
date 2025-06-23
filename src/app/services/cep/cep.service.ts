@@ -20,21 +20,33 @@ export class CepService {
 			.pipe(
 				tap((locationData) => {
 					this.location.set(locationData);
+					this.error.set(null);
 					console.log(locationData);
 				}),
 				catchError((error: HttpErrorResponse) => {
-					const parsedError: LocationError = {
-						name: error.name,
-						message: error.message,
-						type: error.error?.type ?? 'unkown',
-						errors: error.error?.errors ?? []
-					};
+					const newError = this.handleError(error);
 
-					this.error.set(parsedError)
-					this.location.set(undefined);
-
-					return throwError(() => parsedError);
+					return throwError(() => newError);
 				})
 			);
+	}
+
+	handleError(error: HttpErrorResponse | LocationError) {
+		let parsedError: LocationError;
+		if (error instanceof HttpErrorResponse) {
+			parsedError = {
+				name: error.name,
+				message: error.message,
+				type: error.error?.type ?? 'unkown',
+				errors: error.error?.errors ?? [],
+			};
+		} else {
+			parsedError = error;
+		}
+
+		this.error.set(parsedError);
+		this.location.set(undefined);
+
+		return parsedError;
 	}
 }
