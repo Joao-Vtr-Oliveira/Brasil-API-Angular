@@ -16,7 +16,7 @@ export interface LocationCep {
 interface serviceError {
 	name: string;
 	message: string;
-	service: 'correios' | 'viacep';
+	service: string;
 }
 
 export interface LocationError {
