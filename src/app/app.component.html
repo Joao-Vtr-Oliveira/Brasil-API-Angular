@@ -3,19 +3,34 @@
 		<mat-card-title>Digite o CEP</mat-card-title>
 	</mat-card-header>
 	<mat-card-content>
-    @if (!location()) {
-      <p>Nenhum lugar pesquisado</p>
-    } @else {
-      <p>Estado: {{location()?.state}}</p>
-      <p>Cidade: {{location()?.city}}</p>
-      <p>Bairro: {{location()?.neighborhood}}</p>
-      <p>Rua: {{location()?.street}}</p>
-    }
-  </mat-card-content>
+		@if (!location()) {
+		<p>Nenhum lugar pesquisado</p>
+		}
+		
+		@if (cepService.readError()) {
+			<p class='text-red-400 italic'>Erro: {{cepService.readError()!.errors[0].message}}</p>
+		}
+
+		@if(location()) {
+		<p>Estado: {{ location()?.state }}</p>
+		<p>Cidade: {{ location()?.city }}</p>
+		<p>Bairro: {{ location()?.neighborhood }}</p>
+		<p>Rua: {{ location()?.street }}</p>
+		<a mat-fab extended [href]="mapsUrl()" target="_blank">
+			<mat-icon>favorite</mat-icon>
+			Link
+		</a>
+		}
+	</mat-card-content>
 	<mat-card-actions>
 		<mat-form-field class="example-full-width">
 			<mat-label>CEP</mat-label>
-			<input matInput placeholder="Ex. 32600-000." (change)="onCepChange()" [(ngModel)]='cep'/>
+			<input
+				matInput
+				placeholder="Ex. 32600-000."
+				(change)="onCepChange()"
+				[(ngModel)]="cep"
+			/>
 		</mat-form-field>
 	</mat-card-actions>
 </mat-card>
