@@ -1,0 +1,41 @@
+<div class="flex justify-center items-center min-h-screen">
+	<mat-card class="example-card" appearance="outlined">
+		<mat-card-header>
+			<mat-card-title>Digite o CEP</mat-card-title>
+		</mat-card-header>
+		<mat-card-actions>
+			<mat-form-field class="example-full-width">
+				<mat-label>CEP</mat-label>
+				<input
+					matInput
+					#postalCode
+					maxlength="8"
+					placeholder="Ex. 32600-000."
+					(change)="onCepChange()"
+					[(ngModel)]="cep"
+				/>
+				<mat-hint align="end">{{ cep.length }} / 8</mat-hint>
+			</mat-form-field>
+		</mat-card-actions>
+		<mat-card-content>
+			@if (!location()) {
+			<p>Nenhum lugar pesquisado</p>
+			} @if (cepService.readError()) {
+			<p class="text-red-400 italic">
+				Erro: {{ cepService.readError()!.errors[0].message }}
+			</p>
+			} @if(location()) {
+			<div class="flex flex-col">
+				<p>Estado: {{ location()?.state }}</p>
+				<p>Cidade: {{ location()?.city }}</p>
+				<p>Bairro: {{ location()?.neighborhood }}</p>
+				<p class='mb-3'>Rua: {{ location()?.street }}</p>
+				<a mat-fab extended [href]="mapsUrl()" target="_blank">
+					<mat-icon>place</mat-icon>
+					Link
+				</a>
+			</div>
+			}
+		</mat-card-content>
+	</mat-card>
+</div>
