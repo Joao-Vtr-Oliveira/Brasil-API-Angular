@@ -10,7 +10,7 @@
 					matInput
 					#postalCode
 					maxlength="8"
-					
+					data-testid="inputText-cepComponent"
 					placeholder="Ex. 32600-000."
 					(keyup)="onKeyUp()"
 					(change)="onCepChange()"
@@ -33,7 +33,7 @@
 			</p>
 			} @if(location()) {
 			<div class="flex flex-col">
-				<p>Estado: {{ location()?.state }}</p>
+				<p data-testid="pState-cepComponent">Estado: {{ location()?.state }}</p>
 				<p>Cidade: {{ location()?.city }}</p>
 				<p>Bairro: {{ location()?.neighborhood }}</p>
 				<p class='mb-3'>Rua: {{ location()?.street }}</p>
