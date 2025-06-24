@@ -9,24 +9,27 @@
           <mat-label>DDD</mat-label>
           <input
             matInput
-            
-            type="number"
             maxlength="2"
+            type="number"
             placeholder="Ex. 31."
             (change)="onDddChange()"
-            [(ngModel)]="dddModal"
+            [(ngModel)]="dddModal"  
           />
-          <mat-hint align="end">{{ dddModal.length }} / 2</mat-hint>
+          <mat-hint align="end">{{ dddModal?.toString()?.length ? dddModal?.toString()?.length : '0' }} / 2</mat-hint>
         </mat-form-field>
       </mat-card-actions>
 
     <mat-card-content>
-      @if (!ddd()) {
+      @if (!ddd() && !dddService.readError()) {
         <p class="text-center text-gray-500">Nenhum DDD pesquisado</p>
       }
 
+      @if (dddService.readLoading()) {
+				<mat-spinner></mat-spinner>
+			}
+
       @if (dddService.readError()) {
-        <p class="text-red-400 italic text-center">Erro</p>
+        <p class="text-red-400 italic text-center">Erro: {{dddService.readError()?.message}}</p>
       }
 
       @if (ddd()) {
@@ -35,7 +38,6 @@
             Estado: {{ ddd()?.state }}
           </h2>
 
-          <!-- Scroll estilizado -->
           <div
             class="max-h-64 overflow-y-auto bg-gray-50 rounded-md p-3 shadow-inner custom-scroll"
           >
