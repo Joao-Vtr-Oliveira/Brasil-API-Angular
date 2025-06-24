@@ -54,7 +54,6 @@ export class CepComponent {
 	}
 
 	checkValue() {
-		const regex = /^\d{5}-?\d{3}$/;
 		const parsedError: LocationError = {
 			name: 'CEP inválido',
 			message: '',
