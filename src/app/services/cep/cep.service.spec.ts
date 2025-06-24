@@ -95,4 +95,20 @@ describe('CepService', () => {
 			statusText: mockError.statusText,
 		});
 	});
+	it('should handle loading and update error signal', (done) => {
+		service.fetchLocation('32676048').subscribe({
+			next: () => {
+				expect(service.readLoading()).toBe(false);
+				done();
+			},
+		});
+
+		const req = httpMock.expectOne(
+			'https://brasilapi.com.br/api/cep/v2/32676048'
+		);
+
+		expect(service.readLoading()).toBe(true);
+
+		req.flush({});
+	});
 });
