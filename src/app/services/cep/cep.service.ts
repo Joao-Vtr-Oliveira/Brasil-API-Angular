@@ -10,22 +10,26 @@ export class CepService {
 	private httpClient = inject(HttpClient);
 	private location = signal<LocationCep | undefined>(undefined);
 	private error = signal<LocationError | null>(null);
+	private loading = signal(false)
 
 	readLocation = this.location.asReadonly();
 	readError = this.error.asReadonly();
+	readLoading = this.loading.asReadonly();
 
 	fetchLocation(cep: string) {
+		this.loading.set(true);
 		return this.httpClient
 			.get<LocationCep>(`https://brasilapi.com.br/api/cep/v2/${cep}`, {})
 			.pipe(
 				tap((locationData) => {
 					this.location.set(locationData);
 					this.error.set(null);
+					this.loading.set(false);
 					console.log(locationData);
 				}),
 				catchError((error: HttpErrorResponse) => {
 					const newError = this.handleError(error);
-
+					this.loading.set(false);
 					return throwError(() => newError);
 				})
 			);

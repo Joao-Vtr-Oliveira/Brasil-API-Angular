@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CepService } from '../services/cep/cep.service';
 import { MatIconModule } from '@angular/material/icon';
 import { LocationError } from '../services/cep/cep.model';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
 	selector: 'app-cep',
@@ -22,6 +23,7 @@ import { LocationError } from '../services/cep/cep.model';
 		MatFormFieldModule,
 		MatInputModule,
 		MatIconModule,
+		MatProgressSpinnerModule
 	],
 	templateUrl: './cep.component.html',
 	styleUrl: './cep.component.css',

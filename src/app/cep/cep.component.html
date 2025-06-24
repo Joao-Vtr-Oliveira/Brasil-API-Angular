@@ -18,9 +18,14 @@
 			</mat-form-field>
 		</mat-card-actions>
 		<mat-card-content>
-			@if (!location()) {
+			@if (!location() && !cepService.readLoading()) {
 			<p>Nenhum lugar pesquisado</p>
-			} @if (cepService.readError()) {
+			}
+			@if (cepService.readLoading()) {
+				<mat-spinner></mat-spinner>
+			}
+			
+			@if (cepService.readError() && !cepService.readLoading()) {
 			<p class="text-red-400 italic">
 				Erro: {{ cepService.readError()!.errors[0].message }}
 			</p>
