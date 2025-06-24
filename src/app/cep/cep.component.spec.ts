@@ -111,4 +111,23 @@ describe('CepComponent', () => {
 
 		expect(loadingDiv).toBeFalsy();
 	});
+	it('should test the error case', async () => {
+		const input: HTMLInputElement = fixture.nativeElement.querySelector(
+			'[data-testid="inputText-cepComponent"]'
+		);
+
+		input.value = '00000000';
+		input.dispatchEvent(new Event('input'));
+		fixture.detectChanges();
+
+		service.fetchLocation('fail');
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		const pError = fixture.nativeElement.querySelector(
+			'[data-testid="pError-cepComponent"]'
+		) as HTMLParagraphElement;
+
+		expect(pError.textContent).toContain('CEP não encontrado');
+	});
 });

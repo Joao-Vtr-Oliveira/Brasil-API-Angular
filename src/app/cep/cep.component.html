@@ -30,7 +30,7 @@
 			}
 			
 			@if (cepService.readError()) {
-			<p class="text-red-400 italic">
+			<p data-testid="pError-cepComponent" class="text-red-400 italic">
 				Erro: {{ cepService.readError()?.errors?.[0]?.message || cepService.readError()?.message}}
 			</p>
 			} @if(location()) {
