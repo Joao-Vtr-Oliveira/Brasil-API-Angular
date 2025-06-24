@@ -6,7 +6,7 @@ import {
 	HttpTestingController,
 	provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { DDDInterface } from './ddd.model';
+import { DDDError, DDDInterface } from './ddd.model';
 
 describe('DddService', () => {
 	let service: DddService;
@@ -44,13 +44,35 @@ describe('DddService', () => {
 				expect(data).toEqual(mockData);
 				expect(service.readDdd()).toEqual(mockData);
 				expect(service.readError()).toBe(null);
-        done();
+				done();
 			},
 			error: done,
 		});
-    const req = httpMock.expectOne('https://brasilapi.com.br/api/ddd/v1/21');
-    expect(req.request.method).toBe('GET');
+		const req = httpMock.expectOne('https://brasilapi.com.br/api/ddd/v1/21');
+		expect(req.request.method).toBe('GET');
 
-    req.flush(mockData);
+		req.flush(mockData);
+	});
+
+	it('should handle error and update error signal', (done) => {
+		const mockError: DDDError = {
+			name: 'ServiceError',
+			message: 'DDD não encontrado',
+			type: 'ddd_error',
+		};
+
+		service.fetchDdd('00').subscribe({
+			next: () => fail('should have failed'),
+			error: (err) => {
+				expect(err.type).toBe('ddd_error');
+				expect(service.readDdd()).toBe(undefined);
+				expect(service.readError()?.message).toBe('DDD não encontrado');
+				done();
+			},
+		});
+		const req = httpMock.expectOne('https://brasilapi.com.br/api/ddd/v1/00');
+		expect(req.request.method).toBe('GET');
+
+		req.flush(mockError, {status: 404, statusText: 'Not Found'});
 	});
 });
