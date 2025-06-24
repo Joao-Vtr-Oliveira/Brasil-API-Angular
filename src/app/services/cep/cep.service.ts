@@ -29,11 +29,11 @@ export class CepService {
 					console.log(locationData);
 				}),
 				catchError((error: HttpErrorResponse) => {
-					this.handleError(error);
+					const parsedError = this.handleError(error);
 					console.log('readError: ', this.readError())
 					this.loading.set(false);
 					
-					return of(undefined)
+					return throwError(() => parsedError)
 				})
 			);
 	}
