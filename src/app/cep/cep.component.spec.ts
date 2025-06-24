@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CepComponent } from './cep.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('CepComponent', () => {
   let component: CepComponent;
@@ -8,7 +10,8 @@ describe('CepComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CepComponent]
+      imports: [CepComponent],
+      providers: [provideHttpClientTesting(), provideHttpClient()]
     })
     .compileComponents();
 

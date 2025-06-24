@@ -7,7 +7,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 describe('DddService', () => {
   let service: DddService;
 	let httpMock: HttpTestingController;
-
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [DddService, provideHttpClient(), provideHttpClientTesting()],
@@ -15,6 +15,10 @@ describe('DddService', () => {
     service = TestBed.inject(DddService);
     httpMock = TestBed.inject(HttpTestingController);
   });
+
+    afterEach(() => {
+      httpMock.verify();
+    });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
