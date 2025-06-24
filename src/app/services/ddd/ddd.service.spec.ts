@@ -75,4 +75,21 @@ describe('DddService', () => {
 
 		req.flush(mockError, {status: 404, statusText: 'Not Found'});
 	});
+
+  it('should handle loading and update error signal', (done) => {
+    service.fetchDdd('31').subscribe({
+			next: () => {
+				expect(service.readLoading()).toBe(false);
+				done();
+			},
+		});
+
+		const req = httpMock.expectOne(
+			'https://brasilapi.com.br/api/ddd/v1/31'
+		);
+
+		expect(service.readLoading()).toBe(true);
+
+		req.flush({});
+  })
 });
