@@ -1,7 +1,5 @@
 import {
-	ChangeDetectionStrategy,
 	Component,
-	computed,
 	inject,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,9 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CepService } from '../services/cep/cep.service';
 import { MatIconModule } from '@angular/material/icon';
-import { LocationError } from '../services/cep/cep.model';
 import { DddService } from '../services/ddd/ddd.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
