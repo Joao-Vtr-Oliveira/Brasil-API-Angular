@@ -24,7 +24,9 @@
 			<p>Nenhum lugar pesquisado</p>
 			}
 			@if (cepService.readLoading()) {
-				<mat-spinner></mat-spinner>
+				<div data-testid="divLoading-cepComponent">
+					<mat-spinner></mat-spinner>
+				</div>
 			}
 			
 			@if (cepService.readError()) {

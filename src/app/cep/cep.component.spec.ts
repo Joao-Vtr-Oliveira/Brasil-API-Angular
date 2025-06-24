@@ -17,6 +17,10 @@ class fakeCepService {
 	readError = this.error.asReadonly();
 	readLoading = this.loading.asReadonly();
 
+	setLoading(value: boolean) {
+		this.loading.set(value);
+	}
+
 	mockData: LocationCep = {
 		cep: '32676048',
 		state: 'MG',
@@ -87,5 +91,24 @@ describe('CepComponent', () => {
 		) as HTMLParagraphElement;
 
 		expect(p.textContent).toContain('MG');
+	});
+	it('should test the loading signal', async () => {
+		service.setLoading(true);
+		fixture.detectChanges();
+
+		let loadingDiv: HTMLDivElement = fixture.nativeElement.querySelector(
+			'[data-testid="divLoading-cepComponent"]'
+		);
+		expect(loadingDiv).toBeTruthy();
+
+		service.setLoading(false);
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		loadingDiv = fixture.nativeElement.querySelector(
+			'[data-testid="divLoading-cepComponent"]'
+		);
+
+		expect(loadingDiv).toBeFalsy();
 	});
 });
