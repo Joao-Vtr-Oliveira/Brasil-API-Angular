@@ -40,6 +40,8 @@ export class CnpjComponent {
 	}
 
 	onCnpjChange() {
+		this.cnpj.update((oldCnpj) => oldCnpj.replace(/[^0-9.-]/g, ''));
+    this.cnpjController.set(this.cnpj().replace(/\D/g, ''))
 		const check = this.checkValue();
 		if(check) this.cnpjService.fetchCnpj(this.cnpjController()).subscribe();
 	}
