@@ -20,7 +20,7 @@ export class CnpjService {
 		this.loading.set(true);
 		this.error.set(null);
 		return this.httpClient
-			.get<CnpjInterface>(`https://brasilapi.com.br/api/cep/v2/${cnpj}`, {})
+			.get<CnpjInterface>(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {})
 			.pipe(
 				tap((cnpjData) => {
 					this.cnpj.set(cnpjData);
