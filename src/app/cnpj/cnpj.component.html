@@ -9,12 +9,12 @@
 				<input
 					matInput
 					#postalCode
-					maxlength="8"
 					data-testid="inputText-cepComponent"
-					placeholder="Ex. 32600-000."
+					placeholder="Ex. 00.000.0000000-00"
+          (keyup)="onKeyUp()"
+          (change)="onCnpjChange()"
 					[(ngModel)]="cnpj"
 				/>
-				<mat-hint align="end">{{ cnpj().length }} / 8</mat-hint>
 			</mat-form-field>
 		</mat-card-actions>
 		<mat-card-content>
@@ -34,6 +34,7 @@
 			} @if(readCnpj()) {
 			<div class="flex flex-col">
         {{ readCnpj()?.nome_fantasia }}
+				<button mat-raised-button color="accent" (click)="openDialog()">Abrir diálogo</button>
 			</div>
 			}
 		</mat-card-content>

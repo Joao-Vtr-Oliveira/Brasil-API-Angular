@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { CnpjService } from '../services/cnpj/cnpj.service';
 import { CnpjError } from '../services/cnpj/cnpj.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../cnpj-dialog/cnpj-dialog.component';
 
 
 @Component({
@@ -28,19 +30,36 @@ export class CnpjComponent {
 	cnpjService = inject(CnpjService);
 
 	cnpj = signal('');
+  cnpjController = signal('');
 
 	readCnpj = this.cnpjService.readCnpj;
 
-	// onKeyUp() {
-	// 	this.cep.update((oldCep) => oldCep.replace(/\D/g, ''));
-	// 	console.log(this.cep());
-	// }
+	onKeyUp() {
+		this.cnpj.update((oldCnpj) => oldCnpj.replace(/[^0-9.-]/g, ''));
+	}
 
-	// onCepChange() {
-	// 	const check = this.checkValue();
-	// 	console.log(check);
-	// 	if (check) this.cepService.fetchLocation(this.cep()).subscribe();
-	// }
+	onCnpjChange() {
+		// const check = this.checkValue();
+		// console.log(check);
+    this.cnpjController.set(this.cnpj().replace(/\D/g, ''))
+    console.log(this.cnpj());
+    console.log(this.cnpjController())
+		this.cnpjService.fetchCnpj(this.cnpjController()).subscribe();
+	}
+
+	constructor(private dialog: MatDialog) {}
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+			data: this.readCnpj
+		});
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog fechado com:', result);
+      // true (confirmar), false (cancelar)
+    });
+
+}
 
 // 	checkValue() {
 // 		const parsedError: CnpjError = {
