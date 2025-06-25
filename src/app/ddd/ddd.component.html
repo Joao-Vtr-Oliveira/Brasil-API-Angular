@@ -32,7 +32,7 @@
 			}
 
       @if (dddService.readError()) {
-        <p class="text-red-400 italic text-center">Erro: {{dddService.readError()?.message}}</p>
+        <p data-testid="pError-dddComponent" class="text-red-400 italic text-center">Erro: {{dddService.readError()?.message}}</p>
       }
 
       @if (ddd()) {
