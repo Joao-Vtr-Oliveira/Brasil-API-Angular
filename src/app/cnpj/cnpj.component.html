@@ -33,7 +33,9 @@
 			</p>
 			} @if(readCnpj()) {
 			<div class="flex flex-col">
-        {{ readCnpj()?.nome_fantasia }}
+        <p class='text-center'>
+					{{ readCnpj()?.nome_fantasia ? readCnpj()?.nome_fantasia : readCnpj()?.razao_social }}
+				</p>
 				<button mat-raised-button color="accent" (click)="openDialog()">Abrir diálogo</button>
 			</div>
 			}

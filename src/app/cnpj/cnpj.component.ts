@@ -42,8 +42,8 @@ export class CnpjComponent {
 		// const check = this.checkValue();
 		// console.log(check);
     this.cnpjController.set(this.cnpj().replace(/\D/g, ''))
-    console.log(this.cnpj());
-    console.log(this.cnpjController())
+    // console.log(this.cnpj());
+    // console.log(this.cnpjController())
 		this.cnpjService.fetchCnpj(this.cnpjController()).subscribe();
 	}
 
