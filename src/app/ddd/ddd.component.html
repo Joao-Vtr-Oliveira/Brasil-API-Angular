@@ -13,7 +13,8 @@
             type="number"
             placeholder="Ex. 31."
             (change)="onDddChange()"
-            [(ngModel)]="dddModal"  
+            [(ngModel)]="dddModal"
+            data-testid="inputNumber-dddComponent"
           />
           <mat-hint align="end">{{ dddModal?.toString()?.length ? dddModal?.toString()?.length : '0' }} / 2</mat-hint>
         </mat-form-field>
@@ -25,7 +26,9 @@
       }
 
       @if (dddService.readLoading()) {
-				<mat-spinner></mat-spinner>
+        <div data-testid="divLoading-dddComponent" >
+          <mat-spinner></mat-spinner>
+        </div>
 			}
 
       @if (dddService.readError()) {
@@ -34,7 +37,7 @@
 
       @if (ddd()) {
         <div class="flex flex-col text-center gap-4">
-          <h2 class="text-2xl font-semibold">
+          <h2 data-testid="h2State-dddComponent" class="text-2xl font-semibold">
             Estado: {{ ddd()?.state }}
           </h2>
 
