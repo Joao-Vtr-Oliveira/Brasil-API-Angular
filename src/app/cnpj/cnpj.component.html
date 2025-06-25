@@ -9,12 +9,15 @@
 				<input
 					matInput
 					#postalCode
+					maxlength="17"
 					data-testid="inputText-cepComponent"
 					placeholder="Ex. 00.000.0000000-00"
           (keyup)="onKeyUp()"
           (change)="onCnpjChange()"
 					[(ngModel)]="cnpj"
 				/>
+				<mat-hint align="end">{{ cnpjController().length }} / 14</mat-hint>
+
 			</mat-form-field>
 		</mat-card-actions>
 		<mat-card-content>

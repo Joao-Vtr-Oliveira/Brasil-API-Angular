@@ -36,15 +36,12 @@ export class CnpjComponent {
 
 	onKeyUp() {
 		this.cnpj.update((oldCnpj) => oldCnpj.replace(/[^0-9.-]/g, ''));
+    this.cnpjController.set(this.cnpj().replace(/\D/g, ''))
 	}
 
 	onCnpjChange() {
-		// const check = this.checkValue();
-		// console.log(check);
-    this.cnpjController.set(this.cnpj().replace(/\D/g, ''))
-    // console.log(this.cnpj());
-    // console.log(this.cnpjController())
-		this.cnpjService.fetchCnpj(this.cnpjController()).subscribe();
+		const check = this.checkValue();
+		if(check) this.cnpjService.fetchCnpj(this.cnpjController()).subscribe();
 	}
 
 	constructor(private dialog: MatDialog) {}
@@ -54,27 +51,24 @@ export class CnpjComponent {
 			data: this.readCnpj
 		});
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog fechado com:', result);
-      // true (confirmar), false (cancelar)
-    });
+    dialogRef.afterClosed().subscribe(result => {});
 
 }
 
-// 	checkValue() {
-// 		const parsedError: CnpjError = {
-// 			name: 'CEP inválido',
-// 			message: '',
-// 			type: '',
-// 			errors: [
-// 				{
-// 					message: 'CEP inválido, por favor escreva novamente.',
-// 				},
-// 			],
-// 		};
-// 		if (this.cep().length !== 8) {
-// 			this.cepService.handleError(parsedError);
-// 		}
-// 		return this.cep().length === 8;
-// 	}
+	checkValue() {
+		const parsedError: CnpjError = {
+			name: 'CNPJ inválido',
+			message: '',
+			type: '',
+			errors: [
+				{
+					message: 'CNPJ inválido, por favor escreva novamente.',
+				},
+			],
+		};
+		if (this.cnpjController().length !== 14) {
+			this.cnpjService.handleError(parsedError);
+		}
+		return this.cnpjController().length === 14;
+	}
 }
