@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>{{ cnpj().nome_fantasia }}</h2>
+<h2 mat-dialog-title>
+	{{ cnpj().nome_fantasia ? cnpj().nome_fantasia : cnpj().razao_social }}
+</h2>
 <mat-dialog-content>
 	<mat-chip-set aria-label="Location">
 		<mat-chip>{{ cnpj().uf }}</mat-chip>
@@ -19,22 +21,45 @@
 				{{ cnpj().ddd_telefone_2 }}
 			</button>
 		</a>
+		} @if (!mapsUrl().includes('undefined')) {
+		<a mat-fab extended [href]="mapsUrl()" target="_blank">
+			<mat-icon>place</mat-icon>
+			Maps
+		</a>
 		}
 	</div>
-  @if (cnpj().email) {
-    <a href="">
-      <button mat-raised-button color="accent">
-        <mat-icon>mail</mat-icon>
-        {{ cnpj().email }}
-      </button>
-    </a>
-  }
-	<p class="mt-5">Nome social: {{ cnpj().razao_social }}</p>
-	<p class="mb-5">Cep: {{ cnpj().cep }}</p>
+	@if (cnpj().email) {
+	<a href="">
+		<button mat-raised-button color="accent">
+			<mat-icon>mail</mat-icon>
+			{{ cnpj().email }}
+		</button>
+	</a>
+	}
+	<p class="mt-5 mb-2">Nome social: {{ cnpj().razao_social }}</p>
+	<p class="mb-2">Natureza juridica: {{ cnpj().natureza_juridica }}</p>
+	<p class="mb-2">Cep: {{ cnpj().cep }}</p>
+	<div class="flex align-middle">
+		<mat-icon
+			aria-hidden="false"
+			aria-label="Example home icon"
+			fontIcon="calendar_month"
+		></mat-icon>
+		<span class="place-self-center">
+			{{ cnpj().data_inicio_atividade }}
+		</span>
+	</div>
+	@if(cnpj().cnaes_secundarios[0].descricao) {
+	<div>
+		<p class="text-2xl mt-5">atividades econômicas secundárias</p>
+		<ul class="mt-2 space-y-2 text-left text-sm">
+			@for (cnae of cnpj().cnaes_secundarios; track $index) {
+			<li class="border-b border-gray-200 pb-1">{{ cnae.descricao }}</li>
+			}
+		</ul>
+	</div>
+	}
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-	<button mat-button (click)="onCancel()">Cancelar</button>
-	<button mat-raised-button color="primary" (click)="onConfirm()">
-		Confirmar
-	</button>
+	<button mat-raised-button color="primary" (click)="onCancel()">Fechar</button>
 </mat-dialog-actions>
