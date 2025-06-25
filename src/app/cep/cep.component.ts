@@ -31,6 +31,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class CepComponent {
 	cepService = inject(CepService);
 	cep = signal('');
+	cepController = signal('');
 
 	location = this.cepService.readLocation;
 
@@ -43,14 +44,17 @@ export class CepComponent {
 	);
 
 	onKeyUp() {
-		this.cep.update((oldCep) => oldCep.replace(/\D/g, ''));
-		console.log(this.cep());
+		this.cep.update((oldCep) => oldCep.replace(/[^0-9-]/g, ''));
+		this.cepController.set(this.cep().replace(/\D/g, ''));
 	}
 
 	onCepChange() {
+		this.cep.update((oldCep) => oldCep.replace(/[^0-9-]/g, ''));
+		this.cepController.set(this.cep().replace(/\D/g, ''));
+		
 		const check = this.checkValue();
-		console.log(check);
-		if (check) this.cepService.fetchLocation(this.cep()).subscribe();
+		console.log(this.cepController())
+		if (check) this.cepService.fetchLocation(this.cepController()).subscribe();
 	}
 
 	checkValue() {
@@ -66,9 +70,9 @@ export class CepComponent {
 				},
 			],
 		};
-		if (this.cep().length !== 8) {
+		if (this.cepController().length !== 8) {
 			this.cepService.handleError(parsedError);
 		}
-		return this.cep().length === 8;
+		return this.cepController().length === 8;
 	}
 }

@@ -9,14 +9,14 @@
 				<input
 					matInput
 					#postalCode
-					maxlength="8"
+					maxlength="9"
 					data-testid="inputText-cepComponent"
 					placeholder="Ex. 32600-000."
 					(keyup)="onKeyUp()"
 					(change)="onCepChange()"
 					[(ngModel)]="cep"
 				/>
-				<mat-hint align="end">{{ cep().length }} / 8</mat-hint>
+				<mat-hint align="end">{{ cepController().length }} / 8</mat-hint>
 			</mat-form-field>
 		</mat-card-actions>
 		<mat-card-content>
