@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>{{ cnpj().nome_fantasia }}</h2>
+<mat-dialog-content>
+	<mat-chip-set aria-label="Location">
+		<mat-chip>{{ cnpj().uf }}</mat-chip>
+		<mat-chip>{{ cnpj().municipio }}</mat-chip>
+		<mat-chip>{{ cnpj().bairro }}</mat-chip>
+	</mat-chip-set>
+	<div class="mt-5">
+		<a [href]="'tel:' + cnpj().ddd_telefone_1">
+			<button mat-raised-button color="accent">
+				<mat-icon>call</mat-icon>
+				{{ cnpj().ddd_telefone_1 }}
+			</button>
+		</a>
+		@if (cnpj().ddd_telefone_2) {
+		<a [href]="'tel:' + cnpj().ddd_telefone_2">
+			<button mat-raised-button color="accent">
+				<mat-icon>call</mat-icon>
+				{{ cnpj().ddd_telefone_2 }}
+			</button>
+		</a>
+		}
+	</div>
+  @if (cnpj().email) {
+    <a href="">
+      <button mat-raised-button color="accent">
+        <mat-icon>mail</mat-icon>
+        {{ cnpj().email }}
+      </button>
+    </a>
+  }
+	<p class="mt-5">Nome social: {{ cnpj().razao_social }}</p>
+	<p class="mb-5">Cep: {{ cnpj().cep }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button mat-button (click)="onCancel()">Cancelar</button>
+	<button mat-raised-button color="primary" (click)="onConfirm()">
+		Confirmar
+	</button>
+</mat-dialog-actions>
