@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CnpjComponent } from './cnpj.component';
-import { CnpjError, CnpjInterface } from '../services/cnpj/cnpj.model';
+import { CnpjError, CnpjInterface, cnpjMockData, cnpjMockError } from '../services/cnpj/cnpj.model';
 import { signal } from '@angular/core';
 import { CnpjService } from '../services/cnpj/cnpj.service';
 import { provideHttpClient } from '@angular/common/http';
@@ -20,45 +20,11 @@ class fakeCnpjService {
 		this.loading.set(value);
 	}
 
-	mockData: CnpjInterface = {
-		uf: 'MG',
-		cep: 32604155,
-		pais: null,
-		email: null,
-		porte: 'DEMAIS',
-		bairro: 'ANGOLA',
-		numero: '1503',
-		municipio: 'BETIM',
-		razao_social: 'PPI INFORMATICA E PAPELARIA LTDA',
-		nome_fantasia: 'PORT PAPELARIA',
-		ddd_telefone_1: '3133495031',
-		ddd_telefone_2: '3133495039',
-		cnaes_secundarios: [
-			{
-				codigo: 4751201,
-				descricao:
-					'Comércio varejista especializado de equipamentos e suprimentos de informática',
-			},
-		],
-		natureza_juridica: 'Sociedade Empresária Limitada',
-		data_inicio_atividade: '2009-03-23',
-		qsa: [],
-	};
 
-	mockError: CnpjError = {
-		name: 'ServiceError',
-		message: 'CNPJ não encontrado',
-		type: 'service',
-		errors: [
-			{
-				message: 'CNPJ não encontrado',
-			},
-		],
-	};
 
 	fetchCnpj(fetchCase: 'pass' | 'fail') {
-		if (fetchCase === 'pass') return this.cnpj.set(this.mockData);
-		return this.error.set(this.mockError);
+		if (fetchCase === 'pass') return this.cnpj.set(cnpjMockData);
+		return this.error.set(cnpjMockError);
 	}
 }
 

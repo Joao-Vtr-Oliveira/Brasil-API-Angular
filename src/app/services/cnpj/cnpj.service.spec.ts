@@ -6,7 +6,7 @@ import {
 	provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { CnpjInterface } from './cnpj.model';
+import { CnpjInterface, cnpjMockData, cnpjMockError2 } from './cnpj.model';
 
 describe('CnpjService', () => {
 	let service: CnpjService;
@@ -24,35 +24,10 @@ describe('CnpjService', () => {
 		expect(service).toBeTruthy();
 	});
 	it('should fetch cnpj and update signal on success', (done) => {
-		const mockData: CnpjInterface = {
-			uf: 'MG',
-			cep: 32604155,
-			pais: null,
-			email: null,
-			porte: 'DEMAIS',
-			bairro: 'ANGOLA',
-			numero: '1503',
-			municipio: 'BETIM',
-			razao_social: 'PPI INFORMATICA E PAPELARIA LTDA',
-			nome_fantasia: 'PORT PAPELARIA',
-			ddd_telefone_1: '3133495031',
-			ddd_telefone_2: '3133495039',
-			cnaes_secundarios: [
-				{
-					codigo: 4751201,
-					descricao:
-						'Comércio varejista especializado de equipamentos e suprimentos de informática',
-				},
-			],
-			natureza_juridica: 'Sociedade Empresária Limitada',
-			data_inicio_atividade: '2009-03-23',
-			qsa: [],
-		};
-
 		service.fetchCnpj('06040998000215').subscribe({
 			next: (data) => {
-				expect(data).toEqual(mockData);
-				expect(service.readCnpj()).toEqual(mockData);
+				expect(data).toEqual(cnpjMockData);
+				expect(service.readCnpj()).toEqual(cnpjMockData);
 				expect(service.readError()).toBe(null);
 				done();
 			},
@@ -63,24 +38,9 @@ describe('CnpjService', () => {
 			'https://brasilapi.com.br/api/cnpj/v1/06040998000215'
 		);
 		expect(req.request.method).toBe('GET');
-		req.flush(mockData);
+		req.flush(cnpjMockData);
 	});
 	it('should handle error and update error signal', (done) => {
-		const mockError = {
-			status: 404,
-			statusText: 'Not Found',
-			error: {
-				type: 'cnpj_not_found',
-				errors: [
-					{
-						name: 'ServiceError',
-						message: 'CNPJ não encontrado',
-						service: 'brasilapi',
-					},
-				],
-			},
-		};
-
 		service.fetchCnpj('99999999').subscribe({
 			next: () => fail('should have failed'),
 			error: (err) => {
@@ -96,9 +56,9 @@ describe('CnpjService', () => {
 		const req = httpMock.expectOne(
 			'https://brasilapi.com.br/api/cnpj/v1/99999999'
 		);
-		req.flush(mockError.error, {
-			status: mockError.status,
-			statusText: mockError.statusText,
+		req.flush(cnpjMockError2.error, {
+			status: cnpjMockError2.status,
+			statusText: cnpjMockError2.statusText,
 		});
 	});
 	it('should handle loading and update error signal', (done) => {
