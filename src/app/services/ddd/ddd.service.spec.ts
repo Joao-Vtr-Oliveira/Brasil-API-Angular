@@ -6,7 +6,7 @@ import {
 	HttpTestingController,
 	provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { DDDError, DDDInterface } from './ddd.model';
+import { DDDError, DDDInterface, dddMockData, dddMockError } from './ddd.model';
 
 describe('DddService', () => {
 	let service: DddService;
@@ -29,20 +29,10 @@ describe('DddService', () => {
 	});
 
 	it('should fetch ddd and update signals on success', (done) => {
-		const mockData: DDDInterface = {
-			state: 'RJ',
-			cities: [
-				'TERESÓPOLIS',
-				'TANGUÁ',
-				'SEROPÉDICA',
-				'SÃO JOÃO DE MERITI',
-				'SÃO GONÇALO',
-			],
-		};
 		service.fetchDdd('21').subscribe({
 			next: (data) => {
-				expect(data).toEqual(mockData);
-				expect(service.readDdd()).toEqual(mockData);
+				expect(data).toEqual(dddMockData);
+				expect(service.readDdd()).toEqual(dddMockData);
 				expect(service.readError()).toBe(null);
 				done();
 			},
@@ -51,16 +41,10 @@ describe('DddService', () => {
 		const req = httpMock.expectOne('https://brasilapi.com.br/api/ddd/v1/21');
 		expect(req.request.method).toBe('GET');
 
-		req.flush(mockData);
+		req.flush(dddMockData);
 	});
 
 	it('should handle error and update error signal', (done) => {
-		const mockError: DDDError = {
-			name: 'ServiceError',
-			message: 'DDD não encontrado',
-			type: 'ddd_error',
-		};
-
 		service.fetchDdd('00').subscribe({
 			next: () => fail('should have failed'),
 			error: (err) => {
@@ -73,23 +57,21 @@ describe('DddService', () => {
 		const req = httpMock.expectOne('https://brasilapi.com.br/api/ddd/v1/00');
 		expect(req.request.method).toBe('GET');
 
-		req.flush(mockError, {status: 404, statusText: 'Not Found'});
+		req.flush(dddMockError, { status: 404, statusText: 'Not Found' });
 	});
 
-  it('should handle loading and update error signal', (done) => {
-    service.fetchDdd('31').subscribe({
+	it('should handle loading and update error signal', (done) => {
+		service.fetchDdd('31').subscribe({
 			next: () => {
 				expect(service.readLoading()).toBe(false);
 				done();
 			},
 		});
 
-		const req = httpMock.expectOne(
-			'https://brasilapi.com.br/api/ddd/v1/31'
-		);
+		const req = httpMock.expectOne('https://brasilapi.com.br/api/ddd/v1/31');
 
 		expect(service.readLoading()).toBe(true);
 
 		req.flush({});
-  })
+	});
 });

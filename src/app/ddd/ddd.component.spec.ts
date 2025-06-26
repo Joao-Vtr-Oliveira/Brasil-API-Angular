@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DddComponent } from './ddd.component';
-import {
-	provideHttpClientTesting,
-} from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { DDDError, DDDInterface } from '../services/ddd/ddd.model';
+import { DDDError, DDDInterface, dddMockData, dddMockError } from '../services/ddd/ddd.model';
 import { signal } from '@angular/core';
 import { DddService } from '../services/ddd/ddd.service';
 
@@ -22,25 +20,9 @@ class fakeDddService {
 		this.loading.set(value);
 	}
 
-	mockData: DDDInterface = {
-		state: 'RJ',
-		cities: [
-			'TERESÓPOLIS',
-			'TANGUÁ',
-			'SEROPÉDICA',
-			'SÃO JOÃO DE MERITI',
-			'SÃO GONÇALO',
-		],
-	};
-	mockError: DDDError = {
-		name: 'ServiceError',
-		message: 'DDD não encontrado',
-		type: 'ddd_error',
-	};
-
 	fetchDdd(fetchCase: 'pass' | 'fail') {
-		if (fetchCase === 'pass') return this.ddd.set(this.mockData);
-		return this.error.set(this.mockError);
+		if (fetchCase === 'pass') return this.ddd.set(dddMockData);
+		return this.error.set(dddMockError);
 	}
 }
 
@@ -123,6 +105,6 @@ describe('DddComponent', () => {
 			'[data-testid="pError-dddComponent"]'
 		) as HTMLParagraphElement;
 
-		expect(pError.textContent).toContain('')
+		expect(pError.textContent).toContain('');
 	});
 });
