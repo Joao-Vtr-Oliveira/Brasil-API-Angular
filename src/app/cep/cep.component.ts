@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -60,7 +60,6 @@ export class CepComponent {
 		this.cepController.set(this.cep().replace(/\D/g, ''));
 
 		const check = this.checkValue();
-		console.log(this.cepController());
 		if (check) this.cepService.fetchLocation(this.cepController()).subscribe();
 	}
 

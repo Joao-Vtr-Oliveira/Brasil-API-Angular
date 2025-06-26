@@ -26,7 +26,6 @@ export class CnpjService {
 					this.cnpj.set(cnpjData);
 					this.error.set(null);
 					this.loading.set(false);
-					console.log(cnpjData);
 				}),
 				catchError((error: HttpErrorResponse) => {
 					const parsedError = this.handleError(error);

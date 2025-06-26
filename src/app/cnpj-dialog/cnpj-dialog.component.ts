@@ -1,9 +1,7 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
-	computed,
 	inject,
-	input,
 	OnInit,
 	signal,
 	Signal,

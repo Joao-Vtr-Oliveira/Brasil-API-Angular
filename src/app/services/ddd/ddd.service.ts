@@ -25,7 +25,6 @@ export class DddService {
 					this.ddd.set(dddData);
 					this.error.set(null);
 					this.loading.set(false);
-					console.log(dddData);
 				}),
 				catchError((error: HttpErrorResponse) => {
 					const newError: DDDError = error.error;

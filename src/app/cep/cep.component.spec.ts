@@ -4,7 +4,6 @@ import { CepComponent } from './cep.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CepService } from '../services/cep/cep.service';
-import { Observable } from 'rxjs';
 import { LocationCep, LocationError } from '../services/cep/cep.model';
 import { signal } from '@angular/core';
 

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DddComponent } from './ddd.component';
 import {
-	HttpTestingController,
 	provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';

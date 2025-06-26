@@ -33,8 +33,6 @@ export class DddComponent {
 	
 
 	onDddChange() {
-		const modalLength = String(this.dddModal).length
-		console.log(modalLength)
 		this.dddService.fetchDdd(String(this.dddModal)).subscribe();
 	}
 }

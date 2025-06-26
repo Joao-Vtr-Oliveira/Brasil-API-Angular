@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { LocationCep, LocationError } from './cep.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, of, tap, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -26,7 +26,6 @@ export class CepService {
 					this.location.set(locationData);
 					this.error.set(null);
 					this.loading.set(false);
-					console.log(locationData);
 				}),
 				catchError((error: HttpErrorResponse) => {
 					const parsedError = this.handleError(error);
