@@ -4,7 +4,7 @@ import { CepComponent } from './cep.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CepService } from '../services/cep/cep.service';
-import { LocationCep, LocationError } from '../services/cep/cep.model';
+import { LocationCep, LocationError, cepMockData, cepMockError } from '../services/cep/cep.model';
 import { signal } from '@angular/core';
 
 class fakeCepService {
@@ -20,30 +20,9 @@ class fakeCepService {
 		this.loading.set(value);
 	}
 
-	mockData: LocationCep = {
-		cep: '32676048',
-		state: 'MG',
-		city: 'Betim',
-		neighborhood: 'Amarante',
-		street: 'Rua Padre Toledo',
-		service: 'open-cep',
-		location: {
-			coordinates: {
-				longitude: '-44.1388393',
-				latitude: '-19.9468875',
-			},
-		},
-	};
-	mockError: LocationError = {
-		name: 'ServiceError',
-		message: 'CEP não encontrado',
-		type: 'service',
-		errors: [],
-	};
-
 	fetchLocation(fetchCase: 'pass' | 'fail') {
-		if (fetchCase === 'pass') return this.location.set(this.mockData);
-		return this.error.set(this.mockError);
+		if (fetchCase === 'pass') return this.location.set(cepMockData);
+		return this.error.set(cepMockError);
 	}
 }
 
