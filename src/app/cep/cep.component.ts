@@ -1,9 +1,4 @@
-import {
-	Component,
-	computed,
-	inject,
-	signal,
-} from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +8,7 @@ import { CepService } from '../services/cep/cep.service';
 import { MatIconModule } from '@angular/material/icon';
 import { LocationError } from '../services/cep/cep.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-cep',
@@ -33,15 +29,26 @@ export class CepComponent {
 	cep = signal('');
 	cepController = signal('');
 
+	constructor(private sanitizer: DomSanitizer) {
+		effect(() => {
+			const loc = this.location();
+			if (!loc) {
+				this.mapsUrlIframe.set(null);
+				return;
+			}
+
+			const lat = loc.location.coordinates.latitude;
+			const lng = loc.location.coordinates.longitude;
+			const url = `https://maps.google.com/maps?q=${lat},${lng}&hl=pt-BR&z=14&output=embed`;
+			this.mapsUrlIframe.set(
+				this.sanitizer.bypassSecurityTrustResourceUrl(url)
+			);
+		});
+	}
+	mapsUrlIframe = signal<SafeResourceUrl | null>(null);
+
 	location = this.cepService.readLocation;
 
-	mapsUrl = computed(
-		() =>
-			'https://www.google.com/maps?q=' +
-			this.location()?.location?.coordinates?.latitude +
-			',' +
-			this.location()?.location?.coordinates?.longitude
-	);
 
 	onKeyUp() {
 		this.cep.update((oldCep) => oldCep.replace(/[^0-9-]/g, ''));
@@ -51,9 +58,9 @@ export class CepComponent {
 	onCepChange() {
 		this.cep.update((oldCep) => oldCep.replace(/[^0-9-]/g, ''));
 		this.cepController.set(this.cep().replace(/\D/g, ''));
-		
+
 		const check = this.checkValue();
-		console.log(this.cepController())
+		console.log(this.cepController());
 		if (check) this.cepService.fetchLocation(this.cepController()).subscribe();
 	}
 
