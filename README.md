@@ -48,7 +48,7 @@ Teste o projeto [aqui](https://brasil-api-angular.vercel.app/).
 
 ---
 
-<details> <summary><strong>📦 Como rodar localmente</strong></summary>
+<details> <summary><strong>Como rodar localmente</strong></summary>
 
 
 # 1. Clone o repositório
